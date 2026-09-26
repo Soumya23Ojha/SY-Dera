@@ -1,24 +1,21 @@
-# import pandas as pd
-
-# df = pd.read_csv("dataset/metadata/fitzpatrick17k.csv")
-
-# print(df["label"].unique())
-
-
 import pandas as pd
 
+# Load the Fitzpatrick17k dataset
 df = pd.read_csv("dataset/metadata/fitzpatrick17k.csv")
 
-labels = df["label"].dropna().str.lower()
-
-print("Is eczema present?")
-print("eczema" in labels.unique())
-
-print("\nLabels containing 'eczema':")
-print([label for label in labels.unique() if "eczema" in label])
-
+# Find all labels containing the word "eczema"
 eczema_df = df[
-    df["label"].str.lower() == "eczema"
+    df["label"].str.lower().str.contains("eczema", na=False)
 ]
 
-print("\nNumber of eczema images:", len(eczema_df))
+# Show how many images belong to each eczema label
+print("Eczema label counts:")
+print(eczema_df["label"].value_counts())
+
+# Show the columns available for these images
+print("\nColumns:")
+print(eczema_df.columns)
+
+# Show the first 5 eczema records
+print("\nFirst 5 eczema records:")
+print(eczema_df.head())
